@@ -3,10 +3,11 @@ import { createBullBoard } from '@bull-board/api';
 import { BullAdapter } from '@bull-board/api/bullAdapter';
 import { ExpressAdapter } from '@bull-board/express';
 import { config } from '@root/config';
+import { IEmailJob } from '@user/interfaces/user.interface';
 import Queue, { Job } from 'bull';
 import Logger from 'bunyan';
-// eslint-disable-next-line @typescript-eslint/no-unused-vars
-type IBaseJobData = IAuthJob;
+
+type IBaseJobData = IAuthJob | IEmailJob;
 let bullAdapters: BullAdapter[] = [];
 
 export let serverAdapter: ExpressAdapter;
@@ -37,14 +38,14 @@ export abstract class BaseQueue {
   }
 
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  protected addJob(name: string, data: any): void {
+  protected addJob (name: string, data: IBaseJobData): void {
     this.queue.add(name, data, {
       attempts: 3,
       backoff: { type: 'fixed', delay: 5000 },
     });
   }
 
-  protected processJob(
+  protected processJob (
     name: string,
     concurrency: number,
     callBack: Queue.ProcessCallbackFunction<void>

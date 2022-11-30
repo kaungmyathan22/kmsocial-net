@@ -12,7 +12,7 @@ import JWT from 'jsonwebtoken';
 
 export class SignIn {
   @joiValidation(loginSchema)
-  public async read(req: Request, res: Response): Promise<void> {
+  public async read (req: Request, res: Response): Promise<void> {
     const { username, password } = req.body;
     const existingUser: IAuthDocument = await authService.getUserByUsername(
       username
@@ -36,7 +36,6 @@ export class SignIn {
       },
       config.JWT_TOKEN!
     );
-    req.session = { jwt: userJwt };
     const userDocument: IUserDocument = {
       ...user,
       authId: existingUser._id,
@@ -46,6 +45,7 @@ export class SignIn {
       uId: existingUser.uId,
       createdAt: existingUser.createdAt,
     } as IUserDocument;
+    req.session = { jwt: userJwt };
     res.status(HTTP_STATUS.OK).json({
       message: 'User login successfully',
       user: userDocument,

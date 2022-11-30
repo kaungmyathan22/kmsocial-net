@@ -29,8 +29,8 @@ export interface IAuthDocument extends Document {
   createdAt: Date;
   passwordResetToken?: string;
   passwordResetExpires?: number | string;
-  comparePassword(password: string): Promise<boolean>;
-  hashPassword(password: string): Promise<string>;
+  comparePassword (password: string): Promise<boolean>;
+  hashPassword (password: string): Promise<string>;
 }
 
 export interface ISignUpData {

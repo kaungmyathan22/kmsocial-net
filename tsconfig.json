@@ -50,6 +50,9 @@
       "@workders/*": [
         "src/shared/workers/*"
       ],
+      "@mocks/*": [
+        "src/mocks"
+      ],
       "@root/*": [
         "src/*"
       ]
